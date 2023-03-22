@@ -7,7 +7,7 @@ const Userschema = new schema({
         required: true,
         unique : true
     },
-    password: {
+    Password: {
         type: String,
         required: true
     }

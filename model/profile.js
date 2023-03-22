@@ -14,27 +14,11 @@ const ProfileSchama = new schema({
         type: String,
         required: true,
     },
-    DOB: {
+    address: {
         type: String,
         required: true,
     },
-    img: {
-        type: String,
-        required: true,
-    },
-    Total_win: {
-        type: String,
-        required: true,
-    },
-    Total_bet: {
-        type: String,
-        required: true,
-    },
-    Total_waged: {
-        type: String,
-        required: true,
-    },
-    rank: {
+    state: {
         type: String,
         required: true,
     },

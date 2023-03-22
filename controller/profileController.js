@@ -1,35 +1,66 @@
 const mongoose = require('mongoose')
 const UsersProfile =  require('../model/profile')
+const CartDB =  require('../model/Cart')
 
 // Get singl
 const SingleUser = async(req,res) =>{
    const user_id = req.user._id
-   try{
-      const users =   await UsersProfile.find({user_id })
-      res.status(200).json(users)
-   }
-   catch(err){
-      res.status(501).json({message: err.message})
+   if(user_id){
+      try{
+         const users =   await UsersProfile.find({user_id })
+         res.status(200).json(users)
+      }
+      catch(err){
+         res.status(404).json({error: err.message})
+      }
+   }else{
+      res.status(501).json({error: "No valid user"})
    }
 }
 
 
-// Get an individual profile
-const UserPro = async(req, res)=>{
-     const { id } = req.params
+// Get singl
+const AddCart = async(req,res) =>{
+   const { name, image, price } = req.body
+   
+   if ( !name || !image || !price ){
+      res.status(404).json({error: "Field is empty"})
+   }
+   else{
+      const user_id = req.user._id
+      if(user_id){
+         try{
+            const users = await CartDB.create({name, price, image, user_id })
+            res.status(200).json(users)
+         }
+         catch(err){
+            res.status(404).json({error: err.message})
+         }
+      }else{
+         res.status(501).json({error: "No valid user"})
+      }
+   }
+}
 
-     if( !mongoose.Types.ObjectId.isValid(id) ){
-            res.status(404).json({error: "NO such profile"})
-     }else{
-        const SingleProfile = await UserProfile.findById(id)
-        if(SingleProfile){
-           res.status(201).json(SingleProfile)
-        }else{
-           res.status(409).json({error: "No such Id "})
-        }
-     }
+
+// Get singl
+const Proceed = async(req,res) =>{
+
+   const user_id = req.user._id
+   if(user_id){
+      try{
+         const users =   await UsersProfile.find({user_id })
+         res.status(200).json(users)
+      }
+      catch(err){
+         res.status(404).json({error: err.message})
+      }
+   }else{
+      res.status(501).json({error: "No valid user"})
+   }
 }
 
 
 
-module.exports = {SingleUser, UserPro }
+
+module.exports = {SingleUser, AddCart, Proceed}
